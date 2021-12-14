@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\RequestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,7 +27,14 @@ Route::get('/dashboard', function () {
 
 Route::group(['prefix' => 'account'], function () {
     Route::get('/', [AccountController::class, 'index'])->name('account');
-    Route::get('/save', [AccountController::class, 'save'])->name('account.save');
+    Route::post('/save', [AccountController::class, 'save'])->name('account.save');
+    //Route::get('/save', [AccountController::class, 'save'])->name('account.save');
+});
+
+Route::group(['prefix' => 'requests'], function () {
+    Route::get('/', [RequestController::class, 'index'])->name('requests');
+    Route::get('/new', [RequestController::class, 'create'])->name('requests.create');
+    Route::post('/save', [RequestController::class, 'save'])->name('requests.save');
 });
 
 require __DIR__.'/auth.php';

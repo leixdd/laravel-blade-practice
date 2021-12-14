@@ -13,9 +13,9 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         @fcStyles(true) 
-        @fcScripts(true)
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
+        @fcScripts(true)
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
