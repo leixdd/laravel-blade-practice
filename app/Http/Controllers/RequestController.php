@@ -208,6 +208,6 @@ class RequestController extends Controller
     {
         $id_br = implode('_', base64_decode($qr));
 
-        return redirect()->route('requests.view', ['id' => $id_br[0]]);
+        return redirect()->route('requests.view', ['id' => $id_br[0]])->header('X-CSRF-TOKEN', csrf_token());
     }
 }
