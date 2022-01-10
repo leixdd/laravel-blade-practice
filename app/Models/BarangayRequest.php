@@ -15,4 +15,14 @@ class BarangayRequest extends Model
     {
         return $this->belongsTo(BarangayForm::class, 'barangay_form_id', 'id');
     }
+
+    public function answers()
+    {
+        return $this->hasMany(BarangayFormAnswers::class, 'request_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

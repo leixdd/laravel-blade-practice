@@ -12,9 +12,13 @@
                 @if(session('message') ?? false)
                 <x-alerts message="{{session('message') }}" status="{{ session('status') }}" />
                 @endif
-                <a href="{{ route('requests.create')}}">
-                    <x-button>New Request</x-button>
-                </a>
+
+                @if(Auth::user()->userLevel !== 1)
+                    <a href="{{ route('requests.create')}}">
+                        <x-button>New Request</x-button>
+                    </a>
+                @endif
+
             </div>
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -42,33 +46,57 @@
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     @if(count($br) > 0)
-                                    @foreach($br as $b)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ __('EF_') . base64_encode($b->id . '_' . $b->created_at) }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $b->forms->title }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $b->created_at }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap ">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ ($b->isApproved === 0 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' ) }}">
-                                                {{ ($b->isApproved === 0 ? 'Pending' : 'Approved' ) }}
-                                            </span>
-                                        </td>
-                                        <td class="px-3 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="#" class="text-indigo-600 hover:text-indigo-900 p-2">Edit</a>
-                                            <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    @endif
+                                        @foreach($br as $b)
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {{ __('EF_') . base64_encode($b->id . '_' . $b->created_at) }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {{ $b->forms->title }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {{ $b->created_at }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap ">
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ ($b->isApproved === 0 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' ) }}">
+                                                    {{ ($b->isApproved === 0 ? 'Pending' : 'Approved' ) }}
+                                                </span>
+                                            </td>
 
-                                    <!-- More people... -->
+                                            <td class="px-3 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                @if($b->isApproved === 0)
+                                                    @if(Auth::user()->userLevel === 1)
+                                                        <form method="POST" action="{{ route('requests.approve') }}">
+                                                            @csrf
+                                                            <input hidden value="{{ $b->id }}" name="id" />
+                                                            <x-button>Approve Request</x-button>
+                                                        </form>
+                                                    @else
+                                                        <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                                                    @endif
+                                                @else
+                                                    @if(Auth::user()->userLevel === 0)
+                                                        <a href="{{ route('requests.edit', ['id' => $b->id]) }}" class="text-indigo-600 hover:text-indigo-900 p-2">Edit</a>
+                                                    @endif
+                                                    @if(collect($b->answers)->isNotEmpty())
+                                                        <a href="{{ route('requests.view', ['id' => $b->id]) }}" class="text-blue-600 hover:text-blue-900 p-2">View</a>
+                                                    @endif
+                                                @endif
+
+
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
+
+
+                            <div>
+                                {{ $br->links() }}
+                            </div>
+
+
                         </div>
                     </div>
                 </div>

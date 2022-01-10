@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class BarangayForm extends Model
 {
     use HasFactory;
+
+    public function questions()
+    {
+        return $this->hasMany(BarangayFormQuestion::class, 'barangay_form_id', 'id');
+    }
+
 }

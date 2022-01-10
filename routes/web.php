@@ -35,6 +35,11 @@ Route::group(['prefix' => 'requests'], function () {
     Route::get('/', [RequestController::class, 'index'])->name('requests');
     Route::get('/new', [RequestController::class, 'create'])->name('requests.create');
     Route::post('/save', [RequestController::class, 'save'])->name('requests.save');
+    Route::post('/approve', [RequestController::class, 'approveRequest'])->name('requests.approve');
+    Route::get('/edit/{id}', [RequestController::class, 'editDocument'])->name('requests.edit');
+    Route::get('/view/{id}', [RequestController::class, 'viewDocument'])->name('requests.view');
+    Route::post('/update', [RequestController::class, 'updateDocument'])->name('requests.update');
+    Route::get('/qr/{qr}', [RequestController::class, 'viewDocQR'])->name('requests.qr');
 });
 
 require __DIR__.'/auth.php';
