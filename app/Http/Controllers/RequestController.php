@@ -206,8 +206,8 @@ class RequestController extends Controller
 
     public function viewDocQR($qr)
     {
-        $id_br = implode('_', base64_decode($qr));
+        $id_br = explode('_', base64_decode($qr));
 
-        return redirect()->route('requests.view', ['id' => $id_br[0]])->header('X-CSRF-TOKEN', csrf_token());
+        return redirect()->route('requests.view', ['id' => $id_br[0]]);
     }
 }

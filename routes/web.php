@@ -39,12 +39,7 @@ Route::group(['prefix' => 'requests'], function () {
     Route::get('/edit/{id}', [RequestController::class, 'editDocument'])->name('requests.edit');
     Route::get('/view/{id}', [RequestController::class, 'viewDocument'])->name('requests.view');
     Route::post('/update', [RequestController::class, 'updateDocument'])->name('requests.update');
+    Route::get('/qr/{qr}', [RequestController::class, 'viewDocQR'])->name('requests.qr');
 });
-
-
-Route::get('/qr/{qr}', function ($qr) {
-    $id_br = explode('_', base64_decode($qr));
-    return redirect()->to('/requests/view/' . $id_br[0]);
-})->name('qr');
 
 require __DIR__.'/auth.php';

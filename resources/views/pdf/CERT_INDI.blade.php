@@ -81,7 +81,7 @@
             </p>
 
             <p class="p-5 text-center">
-                {!! QrCode::size(300)->encoding('UTF-8')->generate(route('qr', ['qr' => ('EF_' . base64_encode($br->id . '_' . $br->created_at)) ])); !!}
+                {!! QrCode::size(300)->encoding('UTF-8')->generate(route('requests.qr', ['qr' => (base64_encode($br->id . '_' . $br->created_at)) ])); !!}
             </p>
         </div>
 
