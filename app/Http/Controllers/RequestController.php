@@ -148,12 +148,17 @@ class RequestController extends Controller
             return redirect()->back()->with('message', 'Access Denied')->with('status', false);
         }
 
-        $aw = BarangayFormAnswers::where('request_id', $id)->whereIn('barangay_form_question_id', collect($br->forms->questions)->map->only(['id'])->flatten()->all())->get();
+        $aw = BarangayFormAnswers::select('barangay_form_answers.*', 'barangay_form_questions.input_order')->join('barangay_form_questions', 'barangay_form_questions.id', '=', 'barangay_form_answers.barangay_form_question_id')
+            ->where('request_id', $id)
+            ->whereIn('barangay_form_question_id', collect($br->forms->questions)->map->only(['id'])->flatten()->all())
+            ->orderBy('barangay_form_questions.input_order', 'asc')
+            ->get();
+
         $answers = [];
 
         if($aw) {
             foreach ($aw as $a) {
-                $answers[$a->barangay_form_question_id] = $a->value;
+                $answers[$a->input_order] = $a->value;
             }
         }
 

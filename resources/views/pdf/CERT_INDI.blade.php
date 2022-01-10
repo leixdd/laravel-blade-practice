@@ -56,11 +56,12 @@
 
         <div class="col-12 text-justify mt-5">
             <h2 class="pl-5">SA KINAUUKULAN,</h2>
+            <h2 class="pl-5">SA KINAUUKULAN,</h2>
 
             <p class="p-5">
                 Aking PINATUTUNAYAN, na si <b>{{ strtoupper($br->user->details->lastname . ',' . $br->user->details->firstname . ' ' . $br->user->details->middlename) }}</b>
                 na naninirahan sa nayong ito <b> {{ strtoupper($br->user->details->barangay->barangay_name ?? '') }}, Baliwag, Bulacan</b> ay nabibilang sa mahirap na mamamayan ng Barangay at
-                lumalapit sa inyong butihing tanggapan para sa tulong <b>{{ strtoupper(empty(trim($answers[4])) ? __(trim($answers[3])) : __(trim($answers[4]))) }}</b>.
+                lumalapit sa inyong butihing tanggapan para sa tulong <b>{{ strtoupper(empty(trim($answers[1])) ? __(trim($answers[0])) : __(trim($answers[1]))) }}</b>.
             </p>
 
             <p class="p-5">
