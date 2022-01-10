@@ -44,7 +44,7 @@ Route::group(['prefix' => 'requests'], function () {
 
 Route::get('/qr/{qr}', function ($qr) {
     $id_br = explode('_', base64_decode($qr));
-    return redirect('/requests/view/' . $id_br[0]);
+    return redirect()->to('/requests/view/' . $id_br[0]);
 })->name('qr');
 
 require __DIR__.'/auth.php';
